@@ -13,7 +13,8 @@ import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 final public class Interceptor extends HandlerInterceptorAdapter {
 	
-	static final String BREEZE = "BREEZE";
+	static final String BREEZE = "BREEZE", PARAM = "BREEZE_PARAM";
+
 	static private ApplicationContext ac;	
 	static private ServletContext context;
 	static private HashMap<String, Service> _services = new HashMap<String, Service>();
@@ -51,7 +52,8 @@ final public class Interceptor extends HandlerInterceptorAdapter {
 		
 		if( service != null ){
 			$req.setAttribute(BREEZE, service);
-			return service.preHandle($req, $res);
+			$req.setAttribute(PARAM, new Param());
+			return service.pre($req, $res);
 		}
 		return true;
 	}
@@ -61,7 +63,8 @@ final public class Interceptor extends HandlerInterceptorAdapter {
 		Service service = (Service)$req.getAttribute(BREEZE);
 		if( service != null ){
 			$req.removeAttribute(BREEZE);
-			service.postHandle($req, $res, $modelAndView);
+			$req.removeAttribute(PARAM);
+			service.post($req, $res, $modelAndView);
 		}
 	}
 	
