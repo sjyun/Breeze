@@ -9,7 +9,9 @@
 	<version>1.0.0-BUILD-SNAPSHOT</version>
 	<properties>
 	    <spring.maven.artifact.version>3.2.9.RELEASE</spring.maven.artifact.version>
-		<egovframework.rte.version>3.1.0</egovframework.rte.version>
+		  <egovframework.rte.version>3.1.0</egovframework.rte.version>
+			<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+			<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
 	</properties>
 
 	<repositories>
@@ -34,7 +36,7 @@
 			</snapshots>
 		</repository>
 	</repositories>
-	
+
 	<dependencies>
 		<!-- 표준프레임워크 실행환경 -->
         <dependency>
@@ -93,9 +95,11 @@
 			<groupId>org.hsqldb</groupId>
 			<artifactId>hsqldb</artifactId>
 			<version>2.3.2</version>
-		</dependency>      
+		</dependency>
 	</dependencies>
     <build>
+			<finalName>Breeze</finalName>
+
         <plugins>
             <plugin>
                 <artifactId>maven-eclipse-plugin</artifactId>
@@ -131,6 +135,24 @@
                     <mainClass>org.test.int1.Main</mainClass>
                 </configuration>
             </plugin>
+						<plugin>
+							<groupId>org.apache.maven.plugins</groupId>
+							<artifactId>maven-war-plugin</artifactId>
+							<version>2.4</version>
+							<configuration>
+								<warsourcedirectory>src/main/webapp</warsourcedirectory>
+								<warname>${project.artifactId}</warname>
+								<failOnMissingWebXml>false</failOnMissingWebXml>
+							</configuration>
+					</plugin>
+						<plugin>
+							<groupId>org.apache.tomcat.maven</groupId>
+							<artifactId>tomcat7-maven-plugin</artifactId>
+							<version>2.2</version>
+							<configuration>
+								<path>/${project.build.finalName}</path>
+							</configuration>
+						</plugin>
         </plugins>
     </build>
 </project>
