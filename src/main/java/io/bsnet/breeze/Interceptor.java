@@ -5,6 +5,10 @@ import java.util.*;
 import javax.servlet.ServletContext;
 import javax.servlet.http.*;
 
+import io.bsnet.breeze.util.BreezeConstant;
+import io.bsnet.breeze.util.BreezeStringUtil;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeansException;
 import org.springframework.context.ApplicationContext;
 import org.springframework.web.context.support.XmlWebApplicationContext;
@@ -12,7 +16,9 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 final public class Interceptor extends HandlerInterceptorAdapter {
-	
+
+	private final Logger logger = LoggerFactory.getLogger(Interceptor.class);
+
 	static final String BREEZE = "BREEZE", PARAM = "BREEZE_PARAM";
 
 	static private ApplicationContext ac;	
@@ -73,4 +79,43 @@ final public class Interceptor extends HandlerInterceptorAdapter {
 	public void afterCompletion( HttpServletRequest $req, HttpServletResponse $res, Object $handler, Exception $ex ) throws Exception {
 	}
 	*/
+
+
+	//log
+	@SuppressWarnings("unchecked")
+	private void printReq( HttpServletRequest $req){
+		logger.info("");
+		logger.info("============================");
+		logger.info("Breeze 요청 URL -> \"" + $req.getRequestURI() + "\"");
+
+		Map<String, String> paramMap = $req.getParameterMap();
+		int size = paramMap.size() -1;
+		int idx = 0;
+
+		Enumeration<String> attr = $req.getParameterNames();
+
+		if(attr.hasMoreElements()){
+			logger.info("");
+			logger.info("[parameter :" + $req.getMethod() + "(" + $req.getCharacterEncoding() + ")]");
+		}
+
+		while( attr.hasMoreElements() ){
+			String param = attr.nextElement();
+			String value = $req.getParameter( param );
+
+			//check UTF-8
+			/*
+			if(!$req.getCharacterEncoding().equals( BreezeConstant.CHARSET_UTF_8 )){
+				value = BreezeStringUtil.parameterEncoding($req.getParameter(param),BreezeConstant.CHARSET_UTF_8 );
+			}
+			*/
+
+			logger.info( "#name: " +  param);
+			logger.info( "#value: " +  value);
+
+			if(idx++ < size)
+				logger.info( "" );
+		}
+		logger.info("-------------------------------------------------------------");
+	}
 }
