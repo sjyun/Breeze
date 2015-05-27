@@ -8,6 +8,8 @@
     </appender>
 
     <logger name="io.bsnet.breeze" level="info"/>
+    <logger name="org.springframework" level="debug"/>
+    <logger name="io.bsnet.breeze.controller" level="debug"/>
 
     <root level="info">
         <appender-ref ref="STDOUT" />

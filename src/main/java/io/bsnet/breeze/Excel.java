@@ -112,12 +112,13 @@ class Excel extends AbstractExcelView {
 		if( header != null ) for(int i = 0 ; i < header.length ; i++) sheet.autoSizeColumn( i, true );
 		*/
 	}
-
+/*
 	@Override
 	protected void buildExcelDocument(Map<String, Object> arg0,
 			HSSFWorkbook arg1, HttpServletRequest arg2, HttpServletResponse arg3)
 			throws Exception {
 		// TODO Auto-generated method stub
-		
+
 	}
+	*/
 }
